@@ -1,0 +1,1135 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SEA-Electric Rest API",
+    "version": "1.0",
+    "description": ""
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/api/driver/login": {
+      "post": {
+        "summary": "",
+        "operationId": "post-api-driver-login",
+        "responses": {
+          "200": {
+            "description": "Reponse when request has been procceed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "success": true,
+                      "message": "You are logged in successfully",
+                      "auth_token": "easdfawfAFdfaeaf..."
+                    }
+                  },
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "return true if success, return false if failed."
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "driver_id": {
+                      "type": "string"
+                    },
+                    "auth_token": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "jwt authenticati"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example of Response": {
+                    "value": {
+                      "success": true,
+                      "message": "string",
+                      "auth_token": "string"
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "description": "Api for login via mobile app.",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "number": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "name",
+                  "number"
+                ],
+                "x-examples": {
+                  "example-1": {
+                    "name": "john",
+                    "number": "1234567890"
+                  }
+                }
+              },
+              "examples": {
+                "Example of Request": {
+                  "value": {
+                    "name": "string",
+                    "number": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/driver/register": {
+      "post": {
+        "summary": "",
+        "operationId": "post-driver-register",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "success": true,
+                      "message": "string",
+                      "auth_token": "string"
+                    }
+                  },
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "driver_id": {
+                      "type": "string"
+                    },
+                    "auth_token": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "message",
+                    "auth_token"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": "API for register new driver",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "depot_id": {
+                    "type": "string"
+                  },
+                  "image_file": {
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "name",
+                  "phone",
+                  "depot_id"
+                ]
+              }
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "/api/driver/me/profile": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get_profile_info",
+        "description": "API for getting driver profile of which logged in",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authentication",
+            "description": "Bearer { auth_token }",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/api/driver/image/upload": {
+      "post": {
+        "summary": "",
+        "operationId": "upload-profile-image",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "image": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "image"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "success": true,
+                      "image": "https://www.google.com"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "API for uploading profile image of driver",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "object"
+                  }
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          },
+          "description": ""
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authentication",
+            "description": "Bearer {auth_token}",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/api/depot/{id}/vehicles": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "Depot id which driver joined"
+        }
+      ],
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Vehicles"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-vehicles",
+        "description": "Get vehicles which are served in depot of drivers",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authentication",
+            "description": "Bearer {auth_token}",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/api/group/add": {
+      "post": {
+        "summary": "",
+        "operationId": "post-add-depot",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "group": {
+                      "$ref": "#/components/schemas/Group"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "API for adding new depot",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              }
+            }
+          }
+        },
+        "parameters": []
+      },
+      "parameters": []
+    },
+    "/api/groups": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "groups": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Group"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-api-groups",
+        "description": "Get Groups",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authentication",
+            "description": "Bearer {auth_token}",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/api/depot/add": {
+      "post": {
+        "summary": "",
+        "operationId": "post-add-depot",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "depot": {
+                      "$ref": "#/components/schemas/Depot"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "API for adding new depot",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "parent_id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "name",
+                  "parent_id"
+                ]
+              }
+            }
+          }
+        },
+        "parameters": []
+      },
+      "parameters": []
+    },
+    "/api/depots": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-api-depots",
+        "description": "API for getting depot list",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer {auth_token}",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/api/vehicle/add": {
+      "post": {
+        "summary": "",
+        "operationId": "post-add-depot",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "vehicle": {
+                      "$ref": "#/components/schemas/Vehicles"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "API for adding new depot",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Vehicles"
+              }
+            }
+          }
+        },
+        "parameters": []
+      },
+      "parameters": []
+    },
+    "/api/service/types": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ServiceType"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-api-service-types",
+        "description": "Get Service Types for scheduling",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authentication",
+            "description": "Bearer {auth_token}"
+          }
+        ]
+      }
+    },
+    "/api/service/centers": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "centers": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ServiceCenter"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-service-centers",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer {auth_token}"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "address",
+            "description": "Query parameter for searching center by address"
+          }
+        ],
+        "description": "Api for getting service centers"
+      }
+    },
+    "/api/service/center/available_times": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "available_times": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/AvailableTime"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-service-center-available_times",
+        "description": "API for getting available times of service centers",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "day",
+            "description": "Selected day which user want to get service from center"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer {auth_token}"
+          }
+        ]
+      }
+    },
+    "/api/service/add": {
+      "post": {
+        "summary": "",
+        "operationId": "post-api-service-add",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "API for add new service",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer {auth_token}"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScheduledService"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/service/histories": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "services": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ScheduledService"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-api-histories",
+        "description": "Api for getting service histories",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer {auth_token}"
+          }
+        ]
+      },
+      "parameters": []
+    },
+    "/api/service/guides": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "video_guides": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "video_url": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-api-service-guides",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer {auth_token}"
+          }
+        ],
+        "description": "Api for getting video guides"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "description": "",
+        "type": "object",
+        "x-examples": {
+          "example-1": {
+            "id": 1,
+            "name": "john",
+            "phone": "1234567890",
+            "image_path": "https://www.google.com",
+            "created_at": "2021-01-01'T'00:00:00.000Z"
+          }
+        },
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "phone": {
+            "type": "string",
+            "minLength": 1
+          },
+          "image": {
+            "type": "string",
+            "minLength": 1
+          },
+          "depot_id": {
+            "type": "integer"
+          },
+          "created_at": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "phone",
+          "image",
+          "created_at"
+        ]
+      },
+      "Vehicles": {
+        "title": "Vehicles",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "size_gvwr": {
+            "type": "string"
+          },
+          "size_motor": {
+            "type": "string"
+          },
+          "size_battery": {
+            "type": "string"
+          },
+          "latitude": {
+            "type": "string"
+          },
+          "longitude": {
+            "type": "string"
+          },
+          "idle_time": {
+            "type": "string"
+          },
+          "mileage": {
+            "type": "string"
+          },
+          "fuel_type": {
+            "type": "string"
+          },
+          "depot_id": {
+            "type": "integer"
+          },
+          "image": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "Group": {
+        "title": "Group",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "childrens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Depot"
+            }
+          }
+        }
+      },
+      "Depot": {
+        "title": "Depot",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "parent_id": {
+            "type": "integer"
+          }
+        }
+      },
+      "ServiceType": {
+        "title": "ServiceType",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "sub_types": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceSubType"
+            }
+          }
+        }
+      },
+      "ServiceSubType": {
+        "title": "ServiceSubType",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ServiceCenter": {
+        "title": "ServiceCenter",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "location": {
+            "type": "object",
+            "properties": {
+              "latitude": {
+                "type": "string"
+              },
+              "longitude": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "AvailableTime": {
+        "title": "AvailableTime",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "time": {
+            "type": "string"
+          }
+        }
+      },
+      "ScheduledService": {
+        "title": "ScheduledService",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "center_id": {
+            "type": "integer"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "date_time": {
+            "type": "string"
+          },
+          "service_type": {
+            "type": "integer"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {}
+  }
+}
